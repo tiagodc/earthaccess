@@ -7,6 +7,10 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+### Added
+
+- Multi-feature search support (multi_bounding_box, multipolygon, multipoint, multicircle, multiline) from a single API call following the [CMR](https://cmr.earthdata.nasa.gov/search/site/docs/search/api.html#g-polygon) standards.
+
 ## [v0.17.0] - 2026-04-02
 
 ### Changed
