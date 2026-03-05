@@ -276,7 +276,7 @@ def test_search_data_by_short_name_with_multipoint():
         count=expected_count,
     )
     assert len(results) > 0
-    
+
     # Verify that multipoint returns more results than single point
     single_point_results = earthaccess.search_data(
         short_name="MOD10A1",
@@ -298,16 +298,16 @@ def test_search_data_by_short_name_with_multipolygon():
         (-40.0, 70.0),
         (-45.0, 70.0),
     ]
-    
+
     multipolygon_coords = [polygon, polygon2]
-    
+
     results = earthaccess.search_data(
         short_name="ATL06",
         multipolygon=multipolygon_coords,
         count=expected_count,
     )
     assert len(results) > 0
-    
+
     # Verify that multipolygon returns more results than single polygon
     single_polygon_results = earthaccess.search_data(
         short_name="ATL06",
@@ -324,16 +324,16 @@ def test_search_data_by_short_name_with_multi_bounding_box():
     # Greenland area bounding boxes
     bbox1 = (-46.5, 61.0, -42.5, 63.0)  # Original bbox from existing test
     bbox2 = (-50.0, 65.0, -45.0, 68.0)  # Another Greenland area
-    
+
     multi_bboxes = [bbox1, bbox2]
-    
+
     results = earthaccess.search_data(
         short_name="ATL06",
         multi_bounding_box=multi_bboxes,
         count=expected_count,
     )
     assert len(results) > 0
-    
+
     # Verify that multi_bounding_box returns more results than single bbox
     single_bbox_results = earthaccess.search_data(
         short_name="ATL06",
@@ -354,16 +354,16 @@ def test_search_data_by_short_name_with_multiline():
         (-118.0, 42.0),
         (-117.0, 43.0),
     ]
-    
+
     multiline_coords = [line, line2]
-    
+
     results = earthaccess.search_data(
         short_name="ATL08",
         multiline=multiline_coords,
         count=expected_count,
     )
     assert len(results) > 0
-    
+
     # Verify that multiline returns more results than single line
     single_line_results = earthaccess.search_data(
         short_name="ATL08",
@@ -380,16 +380,16 @@ def test_search_data_by_short_name_with_multicircle():
     # Define two circles
     circle1 = (-105.61708725711999, 36.38510879364757, 1000.0)  # Taos, NM
     circle2 = (-110.0, 35.0, 1500.0)  # Another area
-    
+
     multicircle_coords = [circle1, circle2]
-    
+
     results = earthaccess.search_data(
         short_name="ATL03",
         multicircle=multicircle_coords,
         count=expected_count,
     )
     assert len(results) > 0
-    
+
     # Verify that multicircle returns more results than single circle
     single_circle_results = earthaccess.search_data(
         short_name="ATL03",

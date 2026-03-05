@@ -48,10 +48,10 @@ dependencies = [
 ]
 
 [project.urls]
-Repository = "https://github.com/nsidc/earthaccess"
+Repository = "https://github.com/earthaccess-dev/earthaccess"
 Documentation = "https://earthaccess.readthedocs.io"
-"Bug Tracker" = "https://github.com/nsidc/earthaccess/issues"
-Changelog = "https://github.com/nsidc/earthaccess/blob/main/CHANGELOG.md"
+"Bug Tracker" = "https://github.com/earthaccess-dev/earthaccess/issues"
+Changelog = "https://github.com/earthaccess-dev/earthaccess/blob/main/CHANGELOG.md"
 
 [project.optional-dependencies]
 kerchunk = [
@@ -95,11 +95,13 @@ test = [
   "responses >=0.14",
   "types-requests >=0.1",
   "types-setuptools >=0.1",
+  "types-geopandas",
   "vcrpy >=7.0.0",
   "earthaccess[kerchunk]",
   "earthaccess[virtualizarr]",
   "dask[distributed]>=2025.7.0",
   "xarray",
+  "geopandas"
 ]
 docs = [
   "jupyterlab >=3",
@@ -109,8 +111,8 @@ docs = [
   # is no longer exported, which causes mkdocs-jupyter to
   # break with a ModuleNotFoundError.
   # for notebook integrations and documentation examples
-  "mkdocs >=1.2,!=1.6.0",
-  "mkdocs-material >=7.1,<10.0",
+  "mkdocs >=1.2,!=1.6.0,<2.0",
+  "mkdocs-material >=9.7.1,<10.0",
   "mkdocs-redirects >=1.2.1",
   "markdown-callouts >=0.2.0",
   "markdown-include >=0.6",
@@ -137,6 +139,7 @@ docs = [
   "earthaccess[virtualizarr]",
   "cftime>=1.6.4",
   "cartopy>=0.24.1",
+  "mkdocs-awesome-nav>=3.3.0",
 ]
 
 

@@ -865,11 +865,10 @@ class DataGranules(GranuleQuery):
         for x, y in lon_lat_pairs:
             self.point(x, y)
             points.append(self.params.pop('point')[0])
-        
-        self.params['point'] = points
-        self.options['point'] = {'or': True}        
-        return self
 
+        self.params['point'] = points
+        self.options['point'] = {'or': True}
+        return self
 
     @override
     def polygon(self, coordinates: Sequence[PointLike]) -> Self:
@@ -899,13 +898,13 @@ class DataGranules(GranuleQuery):
             self
         """
         polygons = []
-                
+
         for polygon in multi_coordinates:
             self.polygon(polygon)
             polygons.append(self.params.pop('polygon'))
-        
+
         self.params['polygon'] = polygons
-        self.options['polygon'] = {'or': True}        
+        self.options['polygon'] = {'or': True}
         return self
 
     @override
@@ -934,7 +933,7 @@ class DataGranules(GranuleQuery):
         return super().bounding_box(
             lower_left_lon, lower_left_lat, upper_right_lon, upper_right_lat
         )
-        
+
     def multi_bounding_box(self, boxes: Sequence[Tuple[FloatLike, FloatLike, FloatLike, FloatLike]]) -> Self:
         """Filter by granules that overlap any bounding box from an input list.
 
@@ -945,11 +944,11 @@ class DataGranules(GranuleQuery):
             self
         """
         bboxes = []
-                
+
         for box in boxes:
             self.bounding_box(*box)
             bboxes.append(self.params.pop('bounding_box'))
-        
+
         self.params['bounding_box'] = bboxes
         self.options['bounding_box'] = {'or': True}
         return self
@@ -971,7 +970,7 @@ class DataGranules(GranuleQuery):
                 pairs, or a coordinate could not be converted to a float.
         """
         return super().line(coordinates)
-    
+
     def multiline(self, multi_coordinates: Sequence[Sequence[PointLike]]) -> Self:
         """Filter by granules that overlap any series of connected points from an input list.
 
@@ -982,16 +981,16 @@ class DataGranules(GranuleQuery):
             self
         """
         lines = []
-                
+
         for line in multi_coordinates:
             self.line(line)
             lines.append(self.params.pop('line'))
-        
+
         self.params['line'] = lines
         self.options['line'] = {'or': True}
         return self
 
-    def multicircle(self, multi_circles: Sequence[Tuple[FloatLike,FloatLike,FloatLike]]) -> Self:
+    def multicircle(self, multi_circles: Sequence[Tuple[FloatLike, FloatLike, FloatLike]]) -> Self:
         """Filter by granules that overlap any circle from an input list.
 
         Parameters:
