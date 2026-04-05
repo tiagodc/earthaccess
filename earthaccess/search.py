@@ -851,25 +851,24 @@ class DataGranules(GranuleQuery):
         """
         return super().point(lon, lat)
 
-    def multipoint(self, lon_lat_pairs: Sequence[PointLike]) -> Self:
+    def multipoint(
+        self, lon_lat_pairs: Sequence[PointLike], *, or_: bool = True
+    ) -> Self:
         """Filter by granules that include multiple geographic points.
 
         Parameters:
             lon_lat_pairs: sequence of (lon, lat) tuples
+            or_: if True (default), return granules matching any point (OR logic);
+                if False, only granules matching all points (AND logic).
 
         Returns:
             self
         """
-        points = []
-
-        for x, y in lon_lat_pairs:
-            self.point(x, y)
-            points.append(self.params.pop('point')[0])
-        
-        self.params['point'] = points
-        self.options['point'] = {'or': True}        
+        self.params["point"] = [
+            self.point(x, y).params.pop("point")[0] for x, y in lon_lat_pairs
+        ]
+        self.option("point", "or", or_)
         return self
-
 
     @override
     def polygon(self, coordinates: Sequence[PointLike]) -> Self:
@@ -889,23 +888,26 @@ class DataGranules(GranuleQuery):
         """
         return super().polygon(coordinates)
 
-    def multipolygon(self, multi_coordinates: Sequence[Sequence[PointLike]]) -> Self:
+    def multipolygon(
+        self,
+        multi_coordinates: Sequence[Sequence[PointLike]],
+        *,
+        or_: bool = True,
+    ) -> Self:
         """Filter by granules that overlap any polygonal area from an input list.
 
         Parameters:
             multi_coordinates: list of lists of (lon, lat) tuples
+            or_: if True (default), return granules matching any polygon (OR logic);
+                if False, only granules matching all polygons (AND logic).
 
         Returns:
             self
         """
-        polygons = []
-                
-        for polygon in multi_coordinates:
-            self.polygon(polygon)
-            polygons.append(self.params.pop('polygon'))
-        
-        self.params['polygon'] = polygons
-        self.options['polygon'] = {'or': True}        
+        self.params["polygon"] = [
+            self.polygon(polygon).params.pop("polygon") for polygon in multi_coordinates
+        ]
+        self.option("polygon", "or", or_)
         return self
 
     @override
@@ -934,24 +936,28 @@ class DataGranules(GranuleQuery):
         return super().bounding_box(
             lower_left_lon, lower_left_lat, upper_right_lon, upper_right_lat
         )
-        
-    def multi_bounding_box(self, boxes: Sequence[Tuple[FloatLike, FloatLike, FloatLike, FloatLike]]) -> Self:
+
+    def multi_bounding_box(
+        self,
+        boxes: Sequence[Tuple[FloatLike, FloatLike, FloatLike, FloatLike]],
+        *,
+        or_: bool = True,
+    ) -> Self:
         """Filter by granules that overlap any bounding box from an input list.
 
         Parameters:
-            boxes: list of tuples of (lower_left_lon, lower_left_lat, upper_right_lon, upper_right_lat)
+            boxes: list of (lower_left_lon, lower_left_lat, upper_right_lon,
+                upper_right_lat) tuples
+            or_: if True (default), return granules matching any box (OR logic);
+                if False, only granules matching all boxes (AND logic).
 
         Returns:
             self
         """
-        bboxes = []
-                
-        for box in boxes:
-            self.bounding_box(*box)
-            bboxes.append(self.params.pop('bounding_box'))
-        
-        self.params['bounding_box'] = bboxes
-        self.options['bounding_box'] = {'or': True}
+        self.params["bounding_box"] = [
+            self.bounding_box(*bbox).params.pop("bounding_box") for bbox in boxes
+        ]
+        self.option("bounding_box", "or", or_)
         return self
 
     @override
@@ -971,43 +977,49 @@ class DataGranules(GranuleQuery):
                 pairs, or a coordinate could not be converted to a float.
         """
         return super().line(coordinates)
-    
-    def multiline(self, multi_coordinates: Sequence[Sequence[PointLike]]) -> Self:
+
+    def multiline(
+        self,
+        multi_coordinates: Sequence[Sequence[PointLike]],
+        *,
+        or_: bool = True,
+    ) -> Self:
         """Filter by granules that overlap any series of connected points from an input list.
 
         Parameters:
             multi_coordinates: a list of lists of (lon, lat) tuples
+            or_: if True (default), return granules matching any line (OR logic);
+                if False, only granules matching all lines (AND logic).
 
         Returns:
             self
         """
-        lines = []
-                
-        for line in multi_coordinates:
-            self.line(line)
-            lines.append(self.params.pop('line'))
-        
-        self.params['line'] = lines
-        self.options['line'] = {'or': True}
+        self.params["line"] = [
+            self.line(line).params.pop("line") for line in multi_coordinates
+        ]
+        self.option("line", "or", or_)
         return self
 
-    def multicircle(self, multi_circles: Sequence[Tuple[FloatLike,FloatLike,FloatLike]]) -> Self:
+    def multicircle(
+        self,
+        multi_circles: Sequence[Tuple[FloatLike, FloatLike, FloatLike]],
+        *,
+        or_: bool = True,
+    ) -> Self:
         """Filter by granules that overlap any circle from an input list.
 
         Parameters:
-            multi_circles: list of tuples of (lon, lat, radius)
+            multi_circles: list of (lon, lat, radius) tuples
+            or_: if True (default), return granules matching any circle (OR logic);
+                if False, only granules matching all circles (AND logic).
 
         Returns:
             self
         """
-        circles = []
-
-        for circle in multi_circles:
-            self.circle(*circle)
-            circles.append(self.params.pop('circle'))
-
-        self.params['circle'] = circles
-        self.options['circle'] = {'or': True}
+        self.params["circle"] = [
+            self.circle(*circle).params.pop("circle") for circle in multi_circles
+        ]
+        self.option("circle", "or", or_)
         return self
 
     @override
